@@ -12,7 +12,7 @@ public class UIcontroller : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("First:"+GetCurrentGauge());
+        //Debug.Log("First:"+GetCurrentGauge());
     }
     void Start()
     {

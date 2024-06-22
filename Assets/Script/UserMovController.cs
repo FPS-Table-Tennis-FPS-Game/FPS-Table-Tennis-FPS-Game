@@ -11,17 +11,21 @@ public class UserMovController : MonoBehaviour
     public Animator PlayerAnim;
     public BoxCollider StrokeRange;
     private UIcontroller uIcontroller;
+
+    private BallController ballController;
     private bool isCharged = false;
     private bool isCharging = false;
-    private bool isShoot = false;
 
+
+    private Vector3 stopState = new Vector3(0f,0f,0f);
     void Start()
     {
         PlayerRigidBody = GetComponent<Rigidbody>();
-        PlayerAnim = GetComponent<Animator>();
         PlayerRigidBody.position = movement;
         GameObject canvas = GameObject.Find("Canvas");
         uIcontroller = canvas.GetComponent<UIcontroller>();
+
+        ballController = GameObject.Find("Ball Director").GetComponent<BallController>();
     }
 
     void Update()
@@ -79,21 +83,33 @@ public class UserMovController : MonoBehaviour
 
     void Run()
     {
-        Turn();
-        Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if(ballController.servState == false)
+        {
+            Turn();
+            Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-        float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
+            if (inputMoveXZ != stopState)
+            {
+                PlayerAnim.SetBool("Running", true);
+            }
+            else
+            {
+                PlayerAnim.SetBool("Running", false);
+            }
 
-        inputMoveXZ = transform.TransformDirection(inputMoveXZ);
+            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
 
-        if (inputMoveXZMgnitude <= 1)
-            inputMoveXZ *= speed;
-        else
-            inputMoveXZ = inputMoveXZ.normalized * speed;
+            inputMoveXZ = transform.TransformDirection(inputMoveXZ);
 
-        movement = inputMoveXZ;
-        movement = movement * Time.deltaTime;
-        PlayerRigidBody.MovePosition(transform.position + movement);
+            if (inputMoveXZMgnitude <= 1)
+                inputMoveXZ *= speed;
+            else
+                inputMoveXZ = inputMoveXZ.normalized * speed;
+
+            movement = inputMoveXZ;
+            movement = movement * Time.deltaTime;
+            PlayerRigidBody.MovePosition(transform.position + movement);
+        }
     }
 
     void Turn()
@@ -104,7 +120,7 @@ public class UserMovController : MonoBehaviour
 
         if (movement != Vector3.zero)
         {
-            PlayerRigidBody.rotation = Quaternion.Slerp(PlayerRigidBody.rotation, cameraRotation, 10.0f * Time.deltaTime);
+            PlayerRigidBody.rotation = Quaternion.Slerp(PlayerRigidBody.rotation, cameraRotation, 10.0f * Time.deltaTime).normalized;
         }
     }
 

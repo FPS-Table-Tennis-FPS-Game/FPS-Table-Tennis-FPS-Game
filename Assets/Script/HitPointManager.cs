@@ -26,8 +26,11 @@ public class HitPointManager : MonoBehaviour
             //플레이어의 방향 으로 공 보내기 : 카메라 각도 방향으로 공 보내기
             float force = uIcontroller.GetCurrentGauge() * 1000;
             other.GetComponent<Rigidbody>().AddForce(transform.parent.forward * force);
-            Destroy(ballController.generatedFrame);
-
+            if(ballController.servState == true)
+            {
+                Destroy(ballController.generatedFrame);
+                ballController.servState = false;
+            }
         }
     }
 }
