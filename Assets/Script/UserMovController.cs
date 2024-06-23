@@ -10,6 +10,7 @@ public class UserMovController : MonoBehaviour
     public CameraController Camera;
     public Animator PlayerAnim;
     public BoxCollider StrokeRange;
+    public TrailRenderer RacketEffect;
     private UIcontroller uIcontroller;
 
     private BallController ballController;
@@ -33,12 +34,17 @@ public class UserMovController : MonoBehaviour
         Run();
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
         if (Input.GetMouseButtonDown(0))
-        { 
+        {
+            //When Mouse clicked turn on swing effect
+            RacketEffect.enabled = true;
+            StartCoroutine(WaitStrokeEffect());
+
             if (isCharged)
             {
                 StrokeRange.enabled = true;
                 PlayerAnim.SetTrigger("Swing");                          
                 isCharged = false;  // Reset charge status after shooting
+
             }
             else
             {                
@@ -55,7 +61,7 @@ public class UserMovController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             StrokeRange.enabled = false;
-          
+
             if (isCharging)
             {
                 isCharged = true;
@@ -67,7 +73,14 @@ public class UserMovController : MonoBehaviour
         }
     }
 
-   
+    IEnumerator WaitStrokeEffect()
+    {
+        if(RacketEffect.enabled == true)
+        {
+            yield return new WaitForSeconds(0.2f);
+            RacketEffect.enabled = false;
+        }
+    }
     IEnumerator WaitStroke()
     {
         yield return new WaitForSeconds(0.04f);
