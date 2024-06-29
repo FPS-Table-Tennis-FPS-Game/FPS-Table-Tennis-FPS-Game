@@ -14,11 +14,11 @@ public class UserMovController : MonoBehaviour
     private UIcontroller uIcontroller;
 
     private BallController ballController;
-    private bool isCharged = false;
+    public bool ishit = false;
     private bool isCharging = false;
 
 
-    private Vector3 stopState = new Vector3(0f,0f,0f);
+    private Vector3 stopState = new Vector3(0f, 0f, 0f);
     void Start()
     {
         PlayerRigidBody = GetComponent<Rigidbody>();
@@ -33,49 +33,34 @@ public class UserMovController : MonoBehaviour
     {
         Run();
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             //When Mouse clicked turn on swing effect
-            RacketEffect.enabled = true;
-            StartCoroutine(WaitStrokeEffect());
 
-            if (isCharged)
-            {
-                StrokeRange.enabled = true;
-                PlayerAnim.SetTrigger("Swing");                          
-                isCharged = false;  // Reset charge status after shooting
 
-            }
-            else
-            {                
-                if (!isCharging)
-                {
-                    StartCoroutine(WaitCharge());
-                    isCharging = true;
-                }
-            }
-        }
-        else if (Input.GetMouseButton(0) && isCharging)   
+
             uIcontroller.AddGauge(0.01f);
+
+
+        }
+
 
         else if (Input.GetMouseButtonUp(0))
         {
-            StrokeRange.enabled = false;
+            StartCoroutine(WaitStrokeEffect());
+            StartCoroutine(WaitStroke());
+            PlayerAnim.SetTrigger("Swing");
+            StartCoroutine(WaitReset());
 
-            if (isCharging)
-            {
-                isCharged = true;
-                isCharging = false;
-            }
 
-            if(!isCharged)
-            uIcontroller.ResetGauge();
+
         }
+
     }
 
     IEnumerator WaitStrokeEffect()
     {
-        if(RacketEffect.enabled == true)
+        if (RacketEffect.enabled == true)
         {
             yield return new WaitForSeconds(0.2f);
             RacketEffect.enabled = false;
@@ -89,14 +74,15 @@ public class UserMovController : MonoBehaviour
         StrokeRange.enabled = false;
     }
 
-    IEnumerator WaitCharge()
+    IEnumerator WaitReset()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f);
+        uIcontroller.ResetGauge();
     }
 
     void Run()
     {
-        if(ballController.servState == false)
+        if (ballController.servState == false)
         {
             Turn();
             Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -146,4 +132,4 @@ public class UserMovController : MonoBehaviour
         Run();
     }
 
-    }
+}
