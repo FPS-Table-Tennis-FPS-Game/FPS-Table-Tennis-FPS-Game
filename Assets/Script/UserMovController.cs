@@ -17,7 +17,7 @@ public class UserMovController : MonoBehaviour
     private bool isCharging = false;
 
 
-    private Vector3 stopState = new Vector3(0f,0f,0f);
+    private Vector3 stopState = new Vector3(0f, 0f, 0f);
     void Start()
     {
         PlayerRigidBody = GetComponent<Rigidbody>();
@@ -33,15 +33,15 @@ public class UserMovController : MonoBehaviour
         Run();
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
         if (Input.GetMouseButtonDown(0))
-        { 
+        {
             if (isCharged)
             {
                 StrokeRange.enabled = true;
-                PlayerAnim.SetTrigger("Swing");                          
+                PlayerAnim.SetTrigger("Swing");
                 isCharged = false;  // Reset charge status after shooting
             }
             else
-            {                
+            {
                 if (!isCharging)
                 {
                     StartCoroutine(WaitCharge());
@@ -49,25 +49,25 @@ public class UserMovController : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetMouseButton(0) && isCharging)   
+        else if (Input.GetMouseButton(0) && isCharging)
             uIcontroller.AddGauge(0.01f);
 
         else if (Input.GetMouseButtonUp(0))
         {
             StrokeRange.enabled = false;
-          
+
             if (isCharging)
             {
                 isCharged = true;
                 isCharging = false;
             }
 
-            if(!isCharged)
-            uIcontroller.ResetGauge();
+            if (!isCharged)
+                uIcontroller.ResetGauge();
         }
     }
 
-   
+
     IEnumerator WaitStroke()
     {
         yield return new WaitForSeconds(0.04f);
@@ -83,7 +83,7 @@ public class UserMovController : MonoBehaviour
 
     void Run()
     {
-        if(ballController.servState == false)
+        if (ballController.servState == false)
         {
             Turn();
             Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -133,4 +133,4 @@ public class UserMovController : MonoBehaviour
         Run();
     }
 
-    }
+}
