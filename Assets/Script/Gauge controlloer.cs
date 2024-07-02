@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIcontroller : MonoBehaviour
+public class Gaugecontroller : MonoBehaviour
 {
     [SerializeField]
     private Slider Powerbar;
     private float currentGauge;
     private float maxGauge;
 
-    private void Update()
-    {
-        //Debug.Log("First:"+GetCurrentGauge());
-    }
+
     void Start()
     {
         currentGauge = 0;
         SetMaxPower(1);
     }
-
+    
     public float SetGauge
     {
         get => currentGauge;
@@ -49,4 +46,9 @@ public class UIcontroller : MonoBehaviour
     { 
         return currentGauge;
     }
+
 }
+
+
+
+

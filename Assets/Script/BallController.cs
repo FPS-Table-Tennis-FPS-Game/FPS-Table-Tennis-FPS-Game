@@ -10,10 +10,12 @@ public class BallController : MonoBehaviour
     GameObject frame;
     Rigidbody ballRigdbody;
 
-    public bool servState = false;
+    
     public GameObject generatedFrame;
     public GameObject playerSight;
+ 
 
+    public bool servState = false;
     bool sensorActivated = false; // 센서 활성화 여부를 나타내는 변수
 
     public float tossForce;
@@ -27,6 +29,7 @@ public class BallController : MonoBehaviour
         player = GameObject.Find("Player");
         frame = Resources.Load<GameObject>("Prefabs/Frame");
         generatedBall = null;
+  
     }
 
     private void FixedUpdate()
@@ -68,7 +71,8 @@ public class BallController : MonoBehaviour
         }
        
     }
-    
+
+
     void Ballinstant(Vector3 playerPos)
     {
         //Vector3 ballPos = new Vector3(0, 0, 1f);
