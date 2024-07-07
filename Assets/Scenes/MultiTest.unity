@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   space: {fileID: 946558373}
   shootPoint: {fileID: 1502721375}
-  shootBall: {fileID: 8561290762918262805, guid: 27b9ad0f00d92df4d93da1e4f7ab068a, type: 3}
+  shootBall: {fileID: 8561290762918262805, guid: 3b78eb027ccf85b498853b7b7be6766d, type: 3}
   bottomPower: 75
   pushPower: 300
 --- !u!54 &1166678534

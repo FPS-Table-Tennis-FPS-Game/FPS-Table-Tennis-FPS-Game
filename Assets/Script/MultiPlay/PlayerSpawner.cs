@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using Fusion.Sockets;
+using System;
 
 //IplayerJoined : 플레이어가 세션에 참여할 때마다 호출되는 함수가 있음 (PlayerJoined)
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined

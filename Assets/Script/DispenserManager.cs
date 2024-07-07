@@ -27,7 +27,7 @@ public class DispenserManager : MonoBehaviour
 
     IEnumerator BallShoot()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         shootBall.transform.position = shootPoint.position;
         GameObject instantBall = Instantiate(shootBall, space.transform);
 

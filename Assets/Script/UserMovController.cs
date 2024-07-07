@@ -45,7 +45,7 @@ public class UserMovController : MonoBehaviour
 
         else if (Input.GetMouseButtonUp(0))
         {
-            userHitPoint.swingType = 0;
+           // userHitPoint.swingType = 0;
             RacketEffect.enabled = true;
             StartCoroutine(WaitStrokeEffect());
             StartCoroutine(WaitStroke());
@@ -62,7 +62,7 @@ public class UserMovController : MonoBehaviour
 
         else if (Input.GetMouseButtonUp(1))
         {
-            userHitPoint.swingType = 1;
+            //userHitPoint.swingType = 1;
             RacketEffect.enabled = true;
             StartCoroutine(WaitStrokeEffect());
             StartCoroutine(WaitStroke());

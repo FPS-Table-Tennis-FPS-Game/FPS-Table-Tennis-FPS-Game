@@ -666,7 +666,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3114668917991286985}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1195,6 +1195,7 @@ GameObject:
   - component: {fileID: 2452016781756888588}
   - component: {fileID: -3448912199843364111}
   - component: {fileID: 6122707414993393438}
+  - component: {fileID: 5396553967647030334}
   m_Layer: 0
   m_Name: MultiPlayer
   m_TagString: Untagged
@@ -1262,7 +1263,9 @@ MonoBehaviour:
   PlayerAnim: {fileID: 7622237076625673971}
   StrokeRange: {fileID: 657235672868676037}
   RacketEffect: {fileID: 1039975489481082419}
+  userHitPoint: {fileID: 4180976824580129341}
   ishit: 0
+  isSwing: 0
 --- !u!114 &2452016781756888588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1282,6 +1285,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 653464060831895740}
   - {fileID: 6122707414993393438}
+  - {fileID: 5396553967647030334}
 --- !u!54 &-3448912199843364111
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1290,7 +1294,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7711443469373950079}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1331,6 +1335,24 @@ MonoBehaviour:
     Position: 0.01
     Rotation: 0.01
     Scale: 0.01
+--- !u!114 &5396553967647030334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711443469373950079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 7622237076625673971}
+  TotalWords: 3
+  ApplyTiming: 0
+  SyncSettings: -1
+  StateHashes: 000000002b1a167c7940695520e23b685928a8ce5e98d720dcd79ba5a859b434439a3cc9
+  TriggerHashes: 000000005e98d720a859b434
 --- !u!1 &7803258951107849301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,7 +1447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6204289157597541497}
   - component: {fileID: 657235672868676037}
-  - component: {fileID: 4112090756182025446}
+  - component: {fileID: 4180976824580129341}
   m_Layer: 0
   m_Name: StrokeRange
   m_TagString: Untagged
@@ -1467,21 +1489,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 4.333155, y: 0.8324183, z: 3.1401274}
-  m_Center: {x: 0.48774448, y: -0.050123207, z: 0.5953574}
---- !u!114 &4112090756182025446
+  m_Size: {x: 4.0650964, y: 1.4864718, z: 2.7936108}
+  m_Center: {x: 0.6217735, y: -0.3771362, z: 0.42208084}
+--- !u!114 &4180976824580129341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8264147917980894599}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67fa1f49228d1ab4caaf902b0c8978dc, type: 3}
+  m_Script: {fileID: 11500000, guid: e8fc412aea8a1ff468e44533de47e7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inaccuracy: 
   swingType: 0
 --- !u!1 &8667019628541654506
 GameObject:
