@@ -41,11 +41,6 @@ public class MultiPlayerMovement : NetworkBehaviour
         }
     }
 
-    public override void Render()
-    {
-
-    }
-
     public override void FixedUpdateNetwork()
     {
         if (HasStateAuthority == false)
@@ -120,9 +115,9 @@ public class MultiPlayerMovement : NetworkBehaviour
     {
         yield return new WaitForSeconds(0.02f);
         StrokeRange.enabled = true;
-        yield return new WaitForSeconds(0.08f);
+        yield return new WaitForSeconds(0.16f);
         StrokeRange.enabled = false;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.02f);
         isSwing = false;
     }
 
