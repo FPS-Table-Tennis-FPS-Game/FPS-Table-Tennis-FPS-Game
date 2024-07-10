@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserMovController : MonoBehaviour
 {
-    public float speed = 3.5f;
+    public const float speed = 3.5f;
     public Vector3 movement;
     public Rigidbody PlayerRigidBody;
     public CameraController Camera;
@@ -30,10 +30,12 @@ public class UserMovController : MonoBehaviour
         aimingController = canvas.GetComponent<AimingController>();
         ballController = GameObject.Find("Ball Director").GetComponent<BallController>();
     }
-
-    void Update()
+    void FixedUpdate()
     {
         Run();
+    }
+    void Update()
+    {
         
         //게이지 충전
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
@@ -94,17 +96,33 @@ public class UserMovController : MonoBehaviour
                 aimingController.Run(false);
             }
 
-            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
+            // Left shift => dash
+            float tempSpeed = speed;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                
+                tempSpeed = speed*3f;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                tempSpeed = speed;
+            }
 
+
+            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
             inputMoveXZ = transform.TransformDirection(inputMoveXZ);
 
             if (inputMoveXZMgnitude <= 1)
                 inputMoveXZ *= speed;
             else
-                inputMoveXZ = inputMoveXZ.normalized * speed;
+                inputMoveXZ = inputMoveXZ.normalized * tempSpeed;
+
+           
 
             movement = inputMoveXZ;
             movement = movement * Time.deltaTime;
+
+
             PlayerRigidBody.MovePosition(transform.position + movement);
         }
     }
@@ -125,9 +143,6 @@ public class UserMovController : MonoBehaviour
     {
         return Camera.transform.rotation;
     }
-    void FixedUpdate()
-    {
-        Run();
-    }
+
 
 }
