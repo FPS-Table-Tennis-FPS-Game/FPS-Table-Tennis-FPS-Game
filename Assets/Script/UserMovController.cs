@@ -36,8 +36,6 @@ public class UserMovController : MonoBehaviour
     }
     void Update()
     {
-        
-        //°ÔÀÌÁö ÃæÀü
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
         if (Input.GetMouseButton(0))
         {
@@ -45,12 +43,26 @@ public class UserMovController : MonoBehaviour
             uIcontroller.AddGauge(0.01f);
         }
 
-        //°ÔÀÌÁö ¹æÃâ
         else if (Input.GetMouseButtonUp(0))
         {
             StartCoroutine(WaitStrokeEffect());
             StartCoroutine(WaitStroke());
             PlayerAnim.SetTrigger("Swing");
+            StartCoroutine(WaitReset());
+        }
+
+        //Mouse button press > charge > mouse button up > hit  > Gauge reset
+        if (Input.GetMouseButton(1))
+        {
+            //When Mouse clicked turn on swing effect
+            uIcontroller.AddGauge(0.01f);
+        }
+
+        else if (Input.GetMouseButtonUp(1))
+        {
+            StartCoroutine(WaitStrokeEffect());
+            StartCoroutine(WaitStroke());
+            PlayerAnim.SetTrigger("BackSwing");
             StartCoroutine(WaitReset());
         }
 
