@@ -37,7 +37,7 @@ public class UserMovController : MonoBehaviour
     void Update()
     {
         
-        //°ÔÀÌÁö ÃæÀü
+        //Â°Ã”Ã€ÃŒÃÃ¶ ÃƒÃ¦Ã€Ã¼
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
         if (Input.GetMouseButton(0))
         {
@@ -45,7 +45,7 @@ public class UserMovController : MonoBehaviour
             uIcontroller.AddGauge(0.01f);
         }
 
-        //°ÔÀÌÁö ¹æÃâ
+        //Â°Ã”Ã€ÃŒÃÃ¶ Â¹Ã¦ÃƒÃ¢
         else if (Input.GetMouseButtonUp(0))
         {
             StartCoroutine(WaitStrokeEffect());
