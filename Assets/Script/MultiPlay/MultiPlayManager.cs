@@ -10,7 +10,7 @@ public class MultiPlayManager : MonoBehaviour
     private NetworkObject ball;
     void Start()
     {
-        // NetworkRunner 설정 및 시작
+        // NetworkRunner ???? ?? ????
         // networkRunner = GetComponent<NetworkRunner>();
         networkRunner.ProvideInput = true;
         networkRunner.StartGame(new StartGameArgs
@@ -18,8 +18,8 @@ public class MultiPlayManager : MonoBehaviour
             GameMode = GameMode.Shared,
             SessionName = "MyRoom"
         });
-        Debug.Log(networkRunner);
-        // 공 스폰
+
+        // ?? ????
         //SpawnBall();
     }
 

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Fusion;
 
 public class MultiPlayerMovement : NetworkBehaviour
 {
-
+    public int playerId;
     public Camera sight;
     public GameObject userHead;
 
@@ -85,7 +86,6 @@ public class MultiPlayerMovement : NetworkBehaviour
                 PlayerAnim.SetTrigger("Swing");
                 StartCoroutine(WaitReset());
             }
-
         }
 
         if(Input.GetAxis("Fire1") != 1)
