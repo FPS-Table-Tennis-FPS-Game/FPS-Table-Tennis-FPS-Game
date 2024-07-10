@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class UserMovController : MonoBehaviour
 {
-    public float speed = 3.5f;
+    public const float speed = 3.5f;
     public Vector3 movement;
     public Rigidbody PlayerRigidBody;
     public CameraController Camera;
     public Animator PlayerAnim;
     public BoxCollider StrokeRange;
     public TrailRenderer RacketEffect;
-
-    private HitPointManager userHitPoint;
+    
     private Gaugecontroller uIcontroller;
     private AimingController aimingController;
 
     private BallController ballController;
     public bool ishit = false;
+    private bool isCharging = false;
 
 
     private Vector3 stopState = new Vector3(0f, 0f, 0f);
     void Start()
     {
-        userHitPoint = GetComponentInChildren<HitPointManager>();
         PlayerRigidBody = GetComponent<Rigidbody>();
         PlayerRigidBody.position = movement;
         GameObject canvas = GameObject.Find("Canvas");
@@ -31,11 +30,14 @@ public class UserMovController : MonoBehaviour
         aimingController = canvas.GetComponent<AimingController>();
         ballController = GameObject.Find("Ball Director").GetComponent<BallController>();
     }
-
-    void Update()
+    void FixedUpdate()
     {
         Run();
-
+    }
+    void Update()
+    {
+        
+        //게이지 충전
         //Mouse button press > charge > mouse button up > hit  > Gauge reset
         if (Input.GetMouseButton(0))
         {
@@ -43,32 +45,15 @@ public class UserMovController : MonoBehaviour
             uIcontroller.AddGauge(0.01f);
         }
 
+        //게이지 방출
         else if (Input.GetMouseButtonUp(0))
         {
-            userHitPoint.swingType = 0;
-            RacketEffect.enabled = true;
             StartCoroutine(WaitStrokeEffect());
             StartCoroutine(WaitStroke());
             PlayerAnim.SetTrigger("Swing");
             StartCoroutine(WaitReset());
         }
 
-        //Mouse button press > charge > mouse button up > hit  > Gauge reset
-        if (Input.GetMouseButton(1))
-        {
-            //When Mouse clicked turn on swing effect
-            uIcontroller.AddGauge(0.01f);
-        }
-
-        else if (Input.GetMouseButtonUp(1))
-        {
-            userHitPoint.swingType = 1;
-            RacketEffect.enabled = true;
-            StartCoroutine(WaitStrokeEffect());
-            StartCoroutine(WaitStroke());
-            PlayerAnim.SetTrigger("BackSwing");
-            StartCoroutine(WaitReset());
-        }
     }
 
     IEnumerator WaitStrokeEffect()
@@ -81,9 +66,9 @@ public class UserMovController : MonoBehaviour
     }
     IEnumerator WaitStroke()
     {
-        yield return new WaitForSeconds(0.02f);
+        yield return new WaitForSeconds(0.04f);
         StrokeRange.enabled = true;
-        yield return new WaitForSeconds(0.08f);
+        yield return new WaitForSeconds(0.02f);
         StrokeRange.enabled = false;
     }
 
@@ -111,17 +96,33 @@ public class UserMovController : MonoBehaviour
                 aimingController.Run(false);
             }
 
-            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
+            // Left shift => dash
+            float tempSpeed = speed;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                
+                tempSpeed = speed*3f;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                tempSpeed = speed;
+            }
 
+
+            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
             inputMoveXZ = transform.TransformDirection(inputMoveXZ);
 
             if (inputMoveXZMgnitude <= 1)
                 inputMoveXZ *= speed;
             else
-                inputMoveXZ = inputMoveXZ.normalized * speed;
+                inputMoveXZ = inputMoveXZ.normalized * tempSpeed;
+
+           
 
             movement = inputMoveXZ;
             movement = movement * Time.deltaTime;
+
+
             PlayerRigidBody.MovePosition(transform.position + movement);
         }
     }
@@ -142,9 +143,6 @@ public class UserMovController : MonoBehaviour
     {
         return Camera.transform.rotation;
     }
-    void FixedUpdate()
-    {
-        Run();
-    }
+
 
 }
