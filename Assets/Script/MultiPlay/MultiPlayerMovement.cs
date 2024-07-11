@@ -52,6 +52,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+
         if (HasStateAuthority == false)
         {
             return;

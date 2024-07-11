@@ -10,8 +10,7 @@ public class MultiPlayManager : MonoBehaviour
     private NetworkObject ball;
     void Start()
     {
-        // NetworkRunner ???? ?? ????
-        // networkRunner = GetComponent<NetworkRunner>();
+
         networkRunner.ProvideInput = true;
         networkRunner.StartGame(new StartGameArgs
         {
@@ -19,8 +18,6 @@ public class MultiPlayManager : MonoBehaviour
             SessionName = "MyRoom"
         });
 
-        // ?? ????
-        //SpawnBall();
     }
 
     public void SpawnBall()

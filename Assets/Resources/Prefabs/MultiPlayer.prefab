@@ -718,7 +718,7 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.52202636
+        time: 0.60959697
         value: 0
         inSlope: 0
         outSlope: 0
@@ -1255,6 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1177b073564f61478b22e5d7e84148c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerId: 0
   sight: {fileID: 0}
   userHead: {fileID: 0}
   speed: 3.5
@@ -1266,6 +1267,9 @@ MonoBehaviour:
   userHitPoint: {fileID: 4180976824580129341}
   ishit: 0
   isSwing: 0
+  isLCharge: 0
+  isRCharge: 0
+  _EffectEnabled: 0
 --- !u!114 &2452016781756888588
 MonoBehaviour:
   m_ObjectHideFlags: 0
