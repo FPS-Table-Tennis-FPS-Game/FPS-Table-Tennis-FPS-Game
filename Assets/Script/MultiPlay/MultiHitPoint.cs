@@ -7,6 +7,10 @@ public class MultiHitPoint : NetworkBehaviour
 {
     [HideInInspector]
     public int swingType;
+
+    [Networked]
+    public float guagePower { get; set; }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("Ball"))
@@ -24,7 +28,6 @@ public class MultiHitPoint : NetworkBehaviour
         target.GetComponent<MultiBallManager>().CheckHit(transform.root.gameObject);
         target.GetComponent<Rigidbody>().isKinematic = false;
 
-        float guagePower = 0.5f;
         float force2 = guagePower * 1000;
 
 
@@ -37,7 +40,6 @@ public class MultiHitPoint : NetworkBehaviour
         {
             upPower = guagePower * 600;
         }
-
 
         target.GetComponent<Rigidbody>().AddForce(Vector3.up * upPower);
 

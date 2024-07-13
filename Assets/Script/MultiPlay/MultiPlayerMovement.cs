@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Fusion;
+using UnityEngine.UI;
 
 public class MultiPlayerMovement : NetworkBehaviour
 {
-    public int playerId;
+    [Networked]
+    public string playerId { get; set; }
+
+
     public Camera sight;
     public GameObject userHead;
 
@@ -46,13 +50,15 @@ public class MultiPlayerMovement : NetworkBehaviour
             GameObject canvas = GameObject.Find("Canvas");
             guageController = canvas.GetComponent<MultiGuageController>();
             aimingController = canvas.GetComponent<MultiAmingController>();
+
+            playerId = canvas.transform.GetChild(3).GetComponentInChildren<Text>().text;
+
             EffectEnabled = false;
         }
     }
 
     public override void FixedUpdateNetwork()
     {
-
         if (HasStateAuthority == false)
         {
             return;
@@ -75,7 +81,11 @@ public class MultiPlayerMovement : NetworkBehaviour
             }
             else if (Input.GetAxis("Fire1") == 1 && isLCharge)
             {
-                guageController.AddGauge(0.02f);
+                guageController.AddGauge(0.04f);
+                if(userHitPoint.guagePower < 1f)
+                {
+                    userHitPoint.guagePower += 0.04f;
+                }
             }
             else if (Input.GetAxis("Fire1") == 0 && isLCharge && !isSwing)
             {
@@ -98,7 +108,11 @@ public class MultiPlayerMovement : NetworkBehaviour
             }
             else if (Input.GetAxis("Fire2") == 1 && isRCharge)
             {
-                guageController.AddGauge(0.02f);
+                guageController.AddGauge(0.04f);
+                if (userHitPoint.guagePower < 1f)
+                {
+                    userHitPoint.guagePower += 0.04f;
+                }
             }
             else if (Input.GetAxis("Fire2") == 0 && isRCharge && !isSwing)
             {
@@ -169,6 +183,7 @@ public class MultiPlayerMovement : NetworkBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         guageController.ResetGauge();
+        userHitPoint.guagePower = 0f;
     }
 
     void Turn()

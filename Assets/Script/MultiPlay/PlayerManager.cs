@@ -10,7 +10,7 @@ public class PlayerManager : NetworkBehaviour
 
     public void PlayerIdInput(GameObject player)
     {
-        player.GetComponent<MultiPlayerMovement>().playerId = playerId;
-        playerId++;
+        //player.GetComponent<MultiPlayerMovement>().playerId = playerId;
+        //playerId++;
     }
 }

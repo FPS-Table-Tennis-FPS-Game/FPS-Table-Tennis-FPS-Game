@@ -84,7 +84,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.38101807
+        value: 0.19575348
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -252,6 +252,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -7547187473788659276}
+  - {fileID: 5986268874893046045}
 --- !u!54 &-467691189444505498
 Rigidbody:
   m_ObjectHideFlags: 0
