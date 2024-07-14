@@ -10,7 +10,6 @@ public class MultiPlayerMovement : NetworkBehaviour
     [Networked]
     public string playerId { get; set; }
 
-
     public Camera sight;
     public GameObject userHead;
 

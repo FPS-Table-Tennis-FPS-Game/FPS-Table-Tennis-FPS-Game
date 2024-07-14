@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1177b073564f61478b22e5d7e84148c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: 0
+  _playerId: 
   sight: {fileID: 0}
   userHead: {fileID: 0}
   speed: 3.5
@@ -1509,6 +1509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swingType: 0
+  _guagePower: 0
 --- !u!1 &8667019628541654506
 GameObject:
   m_ObjectHideFlags: 0

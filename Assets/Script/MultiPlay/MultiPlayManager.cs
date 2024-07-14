@@ -7,18 +7,17 @@ using UnityEngine.UI;
 public class MultiPlayManager : MonoBehaviour
 {
     public GameObject UserInfoUI;
+    
+    public GameObject UserAimUI;
+    public GameObject UserPowerUI;
+    public GameObject ScoreUI;
+
     public Text InputUserName;
     public NetworkRunner networkRunner;
     public GameObject ballPrefab;
     private NetworkObject ball;
-    void Start()
-    {
-        // NetworkRunner ???? ?? ????
-        // networkRunner = GetComponent<NetworkRunner>();
-
-        // ?? ????
-        //SpawnBall();
-    }
+    [SerializeField]
+    private string inputId;
 
     public void SpawnBall()
     {
@@ -28,7 +27,14 @@ public class MultiPlayManager : MonoBehaviour
     public void InputData()
     {
         InputUserName.text = UserInfoUI.transform.GetChild(1).GetComponent<InputField>().text;
+        inputId = InputUserName.text;
+
         UserInfoUI.SetActive(false);
+
+        ScoreUI.SetActive(true);
+        UserAimUI.SetActive(true);
+        UserPowerUI.SetActive(true);
+
         networkRunner.ProvideInput = true;
         networkRunner.StartGame(new StartGameArgs
         {

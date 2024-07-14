@@ -14,12 +14,6 @@ public class MultiBallManager : NetworkBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-       RPC_HandleCollision(collision.gameObject.GetComponent<NetworkObject>().Id);
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    void RPC_HandleCollision(NetworkId collisionId)
-    {
-        Debug.Log(collisionId);
+        Debug.Log(collision.gameObject.tag);
     }
 }
