@@ -15,6 +15,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 
     public void PlayerJoined(PlayerRef player)
     {
+        Debug.Log("유저 조인");
         NetworkObject spawnedUser = null;
         if (player == Runner.LocalPlayer)
         {
@@ -22,8 +23,9 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             spawnedUser = Runner.Spawn(PlayerPrefab, new Vector3(0, 1, 0), Quaternion.identity, playerRef);
         }
 
-        if(Runner.ActivePlayers.Count() == 1)
+        if(Runner.ActivePlayers.Count() == 2)
         {
+            gameObject.GetComponent<MultiPlayManager>().SpawnScoreManager();
             gameObject.GetComponent<MultiPlayManager>().SpawnBall();
         }
     }

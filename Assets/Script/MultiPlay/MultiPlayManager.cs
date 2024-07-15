@@ -14,16 +14,28 @@ public class MultiPlayManager : MonoBehaviour
 
     public Text InputUserName;
     public NetworkRunner networkRunner;
+
     public GameObject ballPrefab;
     private NetworkObject ball;
+
+    public GameObject scorePrefab;
+    private NetworkObject multiScoreManager;
+
     [SerializeField]
     private string inputId;
+
 
     public void SpawnBall()
     {
         Vector3 ballPosition = new Vector3(0f, 1f, 0f);
         ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
     }
+
+    public void SpawnScoreManager()
+    {
+        multiScoreManager = networkRunner.Spawn(scorePrefab, new Vector3(0f, 0f, 0f));
+    }
+
     public void InputData()
     {
         InputUserName.text = UserInfoUI.transform.GetChild(1).GetComponent<InputField>().text;
