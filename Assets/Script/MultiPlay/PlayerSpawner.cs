@@ -10,23 +10,19 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     public GameObject PlayerPrefab;
 
-    [SerializeField]
-    private PlayerManager playerManager;
-
     public void PlayerJoined(PlayerRef player)
     {
-        Debug.Log("유저 조인");
         NetworkObject spawnedUser = null;
+
         if (player == Runner.LocalPlayer)
-        {
+        {   
             PlayerRef playerRef = Runner.LocalPlayer;
             spawnedUser = Runner.Spawn(PlayerPrefab, new Vector3(0, 1, 0), Quaternion.identity, playerRef);
-        }
-
-        if(Runner.ActivePlayers.Count() == 2)
-        {
-            gameObject.GetComponent<MultiPlayManager>().SpawnScoreManager();
-            gameObject.GetComponent<MultiPlayManager>().SpawnBall();
+            if (Runner.ActivePlayers.Count() == 2)
+            {
+                gameObject.GetComponent<MultiPlayManager>().SpawnScoreManager();
+                gameObject.GetComponent<MultiPlayManager>().SpawnBall();
+            }
         }
     }
 

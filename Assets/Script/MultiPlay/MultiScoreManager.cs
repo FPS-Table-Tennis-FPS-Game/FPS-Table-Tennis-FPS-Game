@@ -5,6 +5,9 @@ using Fusion;
 
 public class MultiScoreManager : NetworkBehaviour
 {
+    public NetworkRunner networkRunner;
+    public GameObject[] players;
+
     [Networked]
     public string user1 { get; set; }
     [Networked]
@@ -12,14 +15,19 @@ public class MultiScoreManager : NetworkBehaviour
 
     public override void Spawned()
     {
-        GameObject[] user = GameObject.FindGameObjectsWithTag("Player");
+        networkRunner = FindObjectOfType<NetworkRunner>();
+        StartCoroutine(FindPlayers(1f));
+    }
 
-        for(int i = 0; i < user.Length; i++)
+    IEnumerator FindPlayers(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        players = GameObject.FindGameObjectsWithTag("Player");
+        for(int i = 0; i < players.Length; i++)
         {
-            Debug.Log(user[i].GetComponent<MultiPlayerMovement>().playerId);
+            if (i == 0) user1 = players[i].GetComponent<MultiPlayerMovement>().playerId;
+            if (i == 1) user2 = players[i].GetComponent<MultiPlayerMovement>().playerId;
         }
-        //user1 = user[0].GetComponent<MultiPlayerMovement>().playerId;
-        //user2 = user[1].GetComponent<MultiPlayerMovement>().playerId;
-
     }
 }
