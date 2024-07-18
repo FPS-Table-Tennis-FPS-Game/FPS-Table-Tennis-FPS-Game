@@ -8,6 +8,7 @@ TagManager:
   - Racket
   - Ground
   - ScoreManager
+  - PositionSetting
   layers:
   - Default
   - TransparentFX

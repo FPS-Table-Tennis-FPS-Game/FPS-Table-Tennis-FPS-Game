@@ -19,6 +19,8 @@ public class MultiPlayManager : MonoBehaviour
     private NetworkObject ball;
 
     public GameObject scorePrefab;
+
+    [SerializeField]
     private NetworkObject multiScoreManager;
 
     [SerializeField]
@@ -29,6 +31,7 @@ public class MultiPlayManager : MonoBehaviour
     {
         Vector3 ballPosition = new Vector3(0f, 1f, 0f);
         ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
+        multiScoreManager.GetComponent<MultiScoreManager>().SetUsersPosition();
     }
 
     public void SpawnScoreManager()
