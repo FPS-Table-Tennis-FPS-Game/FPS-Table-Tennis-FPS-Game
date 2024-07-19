@@ -18,6 +18,7 @@ public class MultiScoreManager : NetworkBehaviour
 
     public override void Spawned()
     {
+        base.Spawned();
         networkRunner = FindObjectOfType<NetworkRunner>();
         setPosition = GameObject.FindGameObjectsWithTag("PositionSetting");
         StartCoroutine(FindPlayers(waitTime));
@@ -26,24 +27,30 @@ public class MultiScoreManager : NetworkBehaviour
     IEnumerator FindPlayers(float time)
     {
         yield return new WaitForSeconds(time);
-        players = GameObject.FindGameObjectsWithTag("Player");
-        for(int i = 0; i < players.Length; i++)
-        {
-            if (i == 0)
-            {
-                user1 = players[i].GetComponent<MultiPlayerMovement>().playerId;
-            }
 
-            if (i == 1)
+        int index = 0;
+        foreach (PlayerRef player in Runner.ActivePlayers)
+        {
+            NetworkObject playerObject = Runner.GetPlayerObject(player);
+            if (playerObject != null)
             {
-                user2 = players[i].GetComponent<MultiPlayerMovement>().playerId;
+                if(index == 0)
+                {
+                    user1 = playerObject.GetComponent<MultiPlayerMovement>().playerId;
+                } else
+                {
+                    user2 = playerObject.GetComponent<MultiPlayerMovement>().playerId;
+                }
+                playerObject.GetComponent<MultiPlayerMovement>().gameStart = true;
+                playerObject.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[index].transform.localPosition);
             }
+            index++;
         }
     }
 
     public void SetUsersPosition()
     {
-        StartCoroutine(SetPosition(waitTime));
+        //StartCoroutine(SetPosition(waitTime));
     }
 
     IEnumerator SetPosition(float time)
@@ -52,7 +59,8 @@ public class MultiScoreManager : NetworkBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             Debug.Log(setPosition[i].transform.position);
-            players[i].transform.position = setPosition[i].transform.position;
+            //
+            players[i].GetComponent<MultiPlayerMovement>().gameStart = true;
         }
     }
 }

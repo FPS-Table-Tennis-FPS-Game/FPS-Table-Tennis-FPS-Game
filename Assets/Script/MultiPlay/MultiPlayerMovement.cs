@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class MultiPlayerMovement : NetworkBehaviour
 {
     [Networked]
+    public bool gameStart { get; set; }
+
+    [Networked]
     public string playerId { get; set; }
 
     public Camera sight;
@@ -16,7 +19,6 @@ public class MultiPlayerMovement : NetworkBehaviour
     public float speed;
     public Vector3 movement;
     public Rigidbody PlayerRigidBody;
-   // public CameraController cameraController;
     public Animator PlayerAnim;
     public BoxCollider StrokeRange;
     public TrailRenderer RacketEffect;
@@ -25,7 +27,8 @@ public class MultiPlayerMovement : NetworkBehaviour
     private MultiGuageController guageController;
     private MultiAmingController aimingController;
 
-    //private BallController ballController;
+    private MultiPlayManager multiPlayManager;
+
     public bool ishit = false;
     public bool isSwing = false;
 
@@ -49,112 +52,124 @@ public class MultiPlayerMovement : NetworkBehaviour
             GameObject canvas = GameObject.Find("Canvas");
             guageController = canvas.GetComponent<MultiGuageController>();
             aimingController = canvas.GetComponent<MultiAmingController>();
+            multiPlayManager = GameObject.FindObjectOfType<MultiPlayManager>();
 
             playerId = canvas.transform.GetChild(3).GetComponentInChildren<Text>().text;
 
             EffectEnabled = false;
+
         }
     }
 
+
     public override void FixedUpdateNetwork()
     {
-        if (HasStateAuthority == false)
+        if(gameStart)
         {
-            return;
-        }
-
-        if(!EffectEnabled)
-        {
-            RacketEffect.enabled = false;
-        } else
-        {
-            RacketEffect.enabled = true;
-        }
-
-        //Mouse button press > charge > mouse button up > hit  > Gauge reset
-        if(Input.GetAxis("Fire2") != 1)
-        {
-            if (Input.GetAxis("Fire1") == 1 && !isLCharge)
+            if (HasStateAuthority == false)
             {
-                isLCharge = true;
+                return;
             }
-            else if (Input.GetAxis("Fire1") == 1 && isLCharge)
-            {
-                guageController.AddGauge(0.04f);
-                if(userHitPoint.guagePower < 1f)
-                {
-                    userHitPoint.guagePower += 0.04f;
-                }
-            }
-            else if (Input.GetAxis("Fire1") == 0 && isLCharge && !isSwing)
-            {
-                isSwing = true;
-                userHitPoint.swingType = 0;
-                EffectEnabled = true;
-                StartCoroutine(WaitStrokeEffect());
-                StartCoroutine(WaitStroke());
-                PlayerAnim.SetTrigger("Swing");
-                StartCoroutine(WaitReset());
-            }
-        }
 
-        if(Input.GetAxis("Fire1") != 1)
-        {
+            if (!EffectEnabled)
+            {
+                RacketEffect.enabled = false;
+            }
+            else
+            {
+                RacketEffect.enabled = true;
+            }
+
+            if (Input.GetAxis("SpawnBall") == 1)
+            {
+                multiPlayManager.SpawnBall(transform.position);
+            }
+
             //Mouse button press > charge > mouse button up > hit  > Gauge reset
-            if (Input.GetAxis("Fire2") == 1 && !isRCharge)
+            if (Input.GetAxis("Fire2") != 1)
             {
-                isRCharge = true;
-            }
-            else if (Input.GetAxis("Fire2") == 1 && isRCharge)
-            {
-                guageController.AddGauge(0.04f);
-                if (userHitPoint.guagePower < 1f)
+                if (Input.GetAxis("Fire1") == 1 && !isLCharge)
                 {
-                    userHitPoint.guagePower += 0.04f;
+                    isLCharge = true;
+                }
+                else if (Input.GetAxis("Fire1") == 1 && isLCharge)
+                {
+                    guageController.AddGauge(0.04f);
+                    if (userHitPoint.guagePower < 1f)
+                    {
+                        userHitPoint.guagePower += 0.04f;
+                    }
+                }
+                else if (Input.GetAxis("Fire1") == 0 && isLCharge && !isSwing)
+                {
+                    isSwing = true;
+                    userHitPoint.swingType = 0;
+                    EffectEnabled = true;
+                    StartCoroutine(WaitStrokeEffect());
+                    StartCoroutine(WaitStroke());
+                    PlayerAnim.SetTrigger("Swing");
+                    StartCoroutine(WaitReset());
                 }
             }
-            else if (Input.GetAxis("Fire2") == 0 && isRCharge && !isSwing)
+
+            if (Input.GetAxis("Fire1") != 1)
             {
-                isSwing = true;
-                userHitPoint.swingType = 1;
-                EffectEnabled = true;
-                StartCoroutine(WaitStrokeEffect());
-                StartCoroutine(WaitStroke());
-                PlayerAnim.SetTrigger("BackSwing");
-                StartCoroutine(WaitReset());
+                //Mouse button press > charge > mouse button up > hit  > Gauge reset
+                if (Input.GetAxis("Fire2") == 1 && !isRCharge)
+                {
+                    isRCharge = true;
+                }
+                else if (Input.GetAxis("Fire2") == 1 && isRCharge)
+                {
+                    guageController.AddGauge(0.04f);
+                    if (userHitPoint.guagePower < 1f)
+                    {
+                        userHitPoint.guagePower += 0.04f;
+                    }
+                }
+                else if (Input.GetAxis("Fire2") == 0 && isRCharge && !isSwing)
+                {
+                    isSwing = true;
+                    userHitPoint.swingType = 1;
+                    EffectEnabled = true;
+                    StartCoroutine(WaitStrokeEffect());
+                    StartCoroutine(WaitStroke());
+                    PlayerAnim.SetTrigger("BackSwing");
+                    StartCoroutine(WaitReset());
+                }
             }
+            Turn();
+
+            Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if (inputMoveXZ != stopState)
+            {
+                PlayerAnim.SetBool("Running", true);
+                aimingController.Run(true);
+            }
+            else
+            {
+                PlayerAnim.SetBool("Running", false);
+                aimingController.Run(false);
+            }
+
+
+
+            float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
+
+            inputMoveXZ = transform.TransformDirection(inputMoveXZ);
+
+
+            /*
+            if (inputMoveXZMgnitude <= 1)
+                inputMoveXZ *= speed;
+            else
+                inputMoveXZ = inputMoveXZ.normalized;
+            */
+
+            movement = inputMoveXZ * Runner.DeltaTime * speed;
+            //movement = movement * Runner.DeltaTime;//Time.deltaTime;
+            PlayerRigidBody.MovePosition(transform.position + movement);
         }
-        Turn();
-
-        Vector3 inputMoveXZ = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        if (inputMoveXZ != stopState)
-        {
-            PlayerAnim.SetBool("Running", true);
-            aimingController.Run(true);
-        }
-        else
-        {
-            PlayerAnim.SetBool("Running", false);
-            aimingController.Run(false);
-        }
-
-
-
-        float inputMoveXZMgnitude = inputMoveXZ.sqrMagnitude;
-
-        inputMoveXZ = transform.TransformDirection(inputMoveXZ);
-
-        
-        /*
-        if (inputMoveXZMgnitude <= 1)
-            inputMoveXZ *= speed;
-        else
-            inputMoveXZ = inputMoveXZ.normalized;
-        */
-    
-        movement = inputMoveXZ * Runner.DeltaTime * speed;
-        //movement = movement * Runner.DeltaTime;//Time.deltaTime;
-        PlayerRigidBody.MovePosition(transform.position + movement);
     }
 
     IEnumerator WaitStrokeEffect()
@@ -202,4 +217,9 @@ public class MultiPlayerMovement : NetworkBehaviour
         return sight.transform.rotation;
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RpcMoveToPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
 }

@@ -16,7 +16,9 @@ public class MultiPlayManager : MonoBehaviour
     public NetworkRunner networkRunner;
 
     public GameObject ballPrefab;
+
     private NetworkObject ball;
+    private bool ballSpawned = false;
 
     public GameObject scorePrefab;
 
@@ -27,16 +29,20 @@ public class MultiPlayManager : MonoBehaviour
     private string inputId;
 
 
-    public void SpawnBall()
+    public void SpawnBall(Vector3 ballPos)
     {
-        Vector3 ballPosition = new Vector3(0f, 1f, 0f);
-        ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
-        multiScoreManager.GetComponent<MultiScoreManager>().SetUsersPosition();
+        if(!ballSpawned)
+        {
+            Vector3 ballPosition = ballPos + new Vector3(0f, 1f, 0f);
+            ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
+            ballSpawned = true;
+        }
     }
 
     public void SpawnScoreManager()
     {
         multiScoreManager = networkRunner.Spawn(scorePrefab, new Vector3(0f, 0f, 0f));
+        multiScoreManager.GetComponent<MultiScoreManager>().SetUsersPosition();
     }
 
     public void InputData()
