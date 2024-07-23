@@ -29,6 +29,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 
     private MultiPlayManager multiPlayManager;
 
+    public bool myTurn = false;
     public bool ishit = false;
     public bool isSwing = false;
 
@@ -80,9 +81,10 @@ public class MultiPlayerMovement : NetworkBehaviour
                 RacketEffect.enabled = true;
             }
 
-            if (Input.GetAxis("SpawnBall") == 1)
+            if (Input.GetAxis("SpawnBall") == 1 && myTurn)
             {
                 multiPlayManager.SpawnBall(transform.position);
+                myTurn = false;
             }
 
             //Mouse button press > charge > mouse button up > hit  > Gauge reset

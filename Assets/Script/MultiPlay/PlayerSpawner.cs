@@ -19,12 +19,11 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             PlayerRef playerRef = Runner.LocalPlayer;
             spawnedUser = Runner.Spawn(PlayerPrefab, new Vector3(0, 1, 0), Quaternion.identity, playerRef);
             Runner.SetPlayerObject(playerRef, spawnedUser);
+
             if (Runner.ActivePlayers.Count() == 2)
             {
                 gameObject.GetComponent<MultiPlayManager>().SpawnScoreManager();
-                //gameObject.GetComponent<MultiPlayManager>().SpawnBall();
             }
         }
     }
-
 }
