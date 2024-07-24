@@ -9,23 +9,18 @@ public class MultiScoreManager : NetworkBehaviour
 
     public GameObject[] setPosition;
 
-    /*
-    [Networked]
-    public string user1 { get; set; }
-    [Networked]
-    public string user2 { get; set; }
-    */
-
-    public Dictionary<string, GameObject> playersDic = new Dictionary<string, GameObject>();
+    public GameObject[] players = new GameObject[2];
 
     private float waitTime = 1f;
+
+    public string currrentTurn;
 
     public override void Spawned()
     {
         base.Spawned();
-       // networkRunner = FindObjectOfType<NetworkRunner>();
-       // setPosition = GameObject.FindGameObjectsWithTag("PositionSetting");
-        //StartCoroutine(FindPlayers(waitTime));
+        networkRunner = FindObjectOfType<NetworkRunner>();
+        setPosition = GameObject.FindGameObjectsWithTag("PositionSetting");
+        StartCoroutine(FindPlayers(waitTime));
     }
 
     IEnumerator FindPlayers(float time)
@@ -40,20 +35,27 @@ public class MultiScoreManager : NetworkBehaviour
 
             if (playerObject != null)
             {
-                playersDic.Add(playerKey, playerObject.gameObject);
+                players[index] = playerObject.gameObject;
                 playerObject.GetComponent<MultiPlayerMovement>().gameStart = true;
                 playerObject.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[index].transform.localPosition);
-                Debug.Log("player" + index + " " + playerObject.GetComponent<MultiPlayerMovement>().playerId);
-                Debug.Log(setPosition[index].transform.localPosition);
             }
-            index++;
+            index++;     
         }
-        //SetTurn();
+        InitTurn();
     }
 
-    public void SetTurn()
+
+    public void InitTurn()
     {
-        Debug.Log("player0: " + playersDic["player0"].GetComponent<MultiPlayerMovement>().playerId);
-      //  player1.GetComponent<MultiPlayerMovement>().myTurn = true;
+        foreach (GameObject ele in players)
+        {
+            if(ele.GetComponent<MultiPlayerMovement>().myTurn)
+            {
+                currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
+                break;
+            }
+        }
     }
+
+
 }

@@ -7,11 +7,10 @@ using UnityEngine.UI;
 
 public class MultiPlayerMovement : NetworkBehaviour
 {
-    [Networked]
-    public bool gameStart { get; set; }
-
-    [Networked]
-    public string playerId { get; set; }
+    [Networked] public bool gameStart { get; set; }
+    [Networked] public string playerId { get; set; }
+    [Networked] public bool EffectEnabled { get; set; }
+    [Networked] public bool myTurn { get; set; } = false;
 
     public Camera sight;
     public GameObject userHead;
@@ -29,7 +28,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 
     private MultiPlayManager multiPlayManager;
 
-    public bool myTurn = false;
+
     public bool ishit = false;
     public bool isSwing = false;
 
@@ -37,8 +36,6 @@ public class MultiPlayerMovement : NetworkBehaviour
     public bool isRCharge = false;
 
     private Vector3 stopState = new Vector3(0f, 0f, 0f);
-
-    [Networked] public bool EffectEnabled { get; set; }
 
     // Start is called before the first frame update
     public override void Spawned()
@@ -57,6 +54,11 @@ public class MultiPlayerMovement : NetworkBehaviour
 
             playerId = canvas.transform.GetChild(3).GetComponentInChildren<Text>().text;
 
+            if(Runner.ActivePlayers.Count() == 1)
+            {
+                myTurn = true;
+            }
+
             EffectEnabled = false;
 
         }
@@ -70,15 +72,6 @@ public class MultiPlayerMovement : NetworkBehaviour
             if (HasStateAuthority == false)
             {
                 return;
-            }
-
-            if (!EffectEnabled)
-            {
-                RacketEffect.enabled = false;
-            }
-            else
-            {
-                RacketEffect.enabled = true;
             }
 
             if (Input.GetAxis("SpawnBall") == 1 && myTurn)
@@ -106,9 +99,8 @@ public class MultiPlayerMovement : NetworkBehaviour
                 {
                     isSwing = true;
                     userHitPoint.swingType = 0;
-                    EffectEnabled = true;
-                    StartCoroutine(WaitStrokeEffect());
                     StartCoroutine(WaitStroke());
+                    StartCoroutine(WaitStrokeEffect());
                     PlayerAnim.SetTrigger("Swing");
                     StartCoroutine(WaitReset());
                 }
@@ -133,9 +125,8 @@ public class MultiPlayerMovement : NetworkBehaviour
                 {
                     isSwing = true;
                     userHitPoint.swingType = 1;
-                    EffectEnabled = true;
-                    StartCoroutine(WaitStrokeEffect());
                     StartCoroutine(WaitStroke());
+                    StartCoroutine(WaitStrokeEffect());
                     PlayerAnim.SetTrigger("BackSwing");
                     StartCoroutine(WaitReset());
                 }
@@ -160,29 +151,18 @@ public class MultiPlayerMovement : NetworkBehaviour
 
             inputMoveXZ = transform.TransformDirection(inputMoveXZ);
 
-
-            /*
-            if (inputMoveXZMgnitude <= 1)
-                inputMoveXZ *= speed;
-            else
-                inputMoveXZ = inputMoveXZ.normalized;
-            */
-
             movement = inputMoveXZ * Runner.DeltaTime * speed;
-            //movement = movement * Runner.DeltaTime;//Time.deltaTime;
             PlayerRigidBody.MovePosition(transform.position + movement);
         }
     }
 
     IEnumerator WaitStrokeEffect()
     {
-        if (EffectEnabled == true)
-        {
-            yield return new WaitForSeconds(0.2f);
-            // RacketEffect.enabled = false;
-            EffectEnabled = false;
-        }
+        RpcEnabledEffect(true);
+        yield return new WaitForSeconds(0.2f);
+        RpcEnabledEffect(false);
     }
+
     IEnumerator WaitStroke()
     {
         yield return new WaitForSeconds(0.02f);
@@ -223,5 +203,11 @@ public class MultiPlayerMovement : NetworkBehaviour
     public void RpcMoveToPosition(Vector3 position)
     {
         transform.position = position;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RpcEnabledEffect(bool effect)
+    {
+        RacketEffect.enabled = effect;
     }
 }
