@@ -7,6 +7,8 @@ public class MultiScoreManager : NetworkBehaviour
 {
     public NetworkRunner networkRunner;
 
+    public MultiUIManager multiUIManager;
+
     public GameObject[] setPosition;
 
     public GameObject[] players = new GameObject[2];
@@ -15,11 +17,15 @@ public class MultiScoreManager : NetworkBehaviour
 
     public string currrentTurn;
 
+    [Networked] public int user0Score { set; get; } = 0;
+    [Networked] public int user1Score { set; get; } = 0;
+
     public override void Spawned()
     {
         base.Spawned();
         networkRunner = FindObjectOfType<NetworkRunner>();
         setPosition = GameObject.FindGameObjectsWithTag("PositionSetting");
+        multiUIManager = GameObject.Find("MultiUIManager").GetComponent<MultiUIManager>();
         StartCoroutine(FindPlayers(waitTime));
     }
 
@@ -37,7 +43,6 @@ public class MultiScoreManager : NetworkBehaviour
             {
                 players[index] = playerObject.gameObject;
                 playerObject.GetComponent<MultiPlayerMovement>().gameStart = true;
-                playerObject.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[index].transform.localPosition);
             }
             index++;     
         }
@@ -52,10 +57,24 @@ public class MultiScoreManager : NetworkBehaviour
             if(ele.GetComponent<MultiPlayerMovement>().myTurn)
             {
                 currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
-                break;
+                ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
+                ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
+            } else
+            {
+                ele.GetComponent<MultiPlayerMovement>().playerCode = 1;
+                ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[1].transform.localPosition);
             }
         }
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCScoreWinner(int winUserCode)
+    {
+        if (winUserCode == 0) user0Score += 1;
+        else if(winUserCode == 1) user1Score += 1;
 
+        multiUIManager.UpdateScoreUI(user0Score, user1Score);
+
+        //Change User Turn
+    }
 }

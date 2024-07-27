@@ -9,6 +9,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 {
     [Networked] public bool gameStart { get; set; }
     [Networked] public string playerId { get; set; }
+    [Networked] public int playerCode { get; set; }
     [Networked] public bool EffectEnabled { get; set; }
     [Networked] public bool myTurn { get; set; } = false;
 
@@ -180,6 +181,7 @@ public class MultiPlayerMovement : NetworkBehaviour
         yield return new WaitForSeconds(0.3f);
         guageController.ResetGauge();
         userHitPoint.guagePower = 0f;
+        userHitPoint.swingType = 99;
     }
 
     void Turn()

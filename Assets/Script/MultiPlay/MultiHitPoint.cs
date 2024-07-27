@@ -16,7 +16,7 @@ public class MultiHitPoint : NetworkBehaviour
         if (other.tag.Equals("Ball"))
         {
             NetworkId ballId = other.gameObject.GetComponent<NetworkObject>().Id;
-            RPC_AddForceToBall(ballId,new Vector3(0,0,0));
+            RPC_AddForceToBall(ballId, new Vector3(0, 0, 0));
         }
     }
 
@@ -25,7 +25,11 @@ public class MultiHitPoint : NetworkBehaviour
     {
         GameObject target = Runner.FindObject(ballId).gameObject;
 
-        target.GetComponent<MultiBallManager>().CheckHit(transform.root.gameObject);
+        if (swingType == 0 || swingType == 1)
+        {
+            target.GetComponent<MultiBallManager>().CheckHit(transform.root.gameObject);
+        }
+
         target.GetComponent<Rigidbody>().isKinematic = false;
 
         float force2 = guagePower * 1000;
