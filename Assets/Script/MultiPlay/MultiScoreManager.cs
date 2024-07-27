@@ -59,10 +59,12 @@ public class MultiScoreManager : NetworkBehaviour
                 currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
                 ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
                 ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
+                RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 0);
             } else
             {
                 ele.GetComponent<MultiPlayerMovement>().playerCode = 1;
                 ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[1].transform.localPosition);
+                RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 1);
             }
         }
     }
@@ -74,7 +76,15 @@ public class MultiScoreManager : NetworkBehaviour
         else if(winUserCode == 1) user1Score += 1;
 
         multiUIManager.UpdateScoreUI(user0Score, user1Score);
-
         //Change User Turn
     }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCUserIdUi(string UserId, int UserCode)
+    {
+        multiUIManager.UpdateUserId(UserId, UserCode);
+    }
+
+
+
 }
