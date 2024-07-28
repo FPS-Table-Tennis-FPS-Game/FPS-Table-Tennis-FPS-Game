@@ -20,7 +20,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             spawnedUser = Runner.Spawn(PlayerPrefab, new Vector3(0, 1, 0), Quaternion.identity, playerRef);
             Runner.SetPlayerObject(playerRef, spawnedUser);
 
-            if (Runner.ActivePlayers.Count() == 2)
+            if (Runner.ActivePlayers.Count() == 1) // when Test Play : 1
             {
                 gameObject.GetComponent<MultiPlayManager>().SpawnScoreManager();
             }

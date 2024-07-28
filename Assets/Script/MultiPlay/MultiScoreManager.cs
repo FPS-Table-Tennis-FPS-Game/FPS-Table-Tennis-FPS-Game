@@ -54,17 +54,21 @@ public class MultiScoreManager : NetworkBehaviour
     {
         foreach (GameObject ele in players)
         {
-            if(ele.GetComponent<MultiPlayerMovement>().myTurn)
+            if(ele != null)
             {
-                currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
-                ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
-                ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
-                RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 0);
-            } else
-            {
-                ele.GetComponent<MultiPlayerMovement>().playerCode = 1;
-                ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[1].transform.localPosition);
-                RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 1);
+                if (ele.GetComponent<MultiPlayerMovement>().myTurn)
+                {
+                    currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
+                    ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
+                    ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
+                    RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 0);
+                }
+                else
+                {
+                    ele.GetComponent<MultiPlayerMovement>().playerCode = 1;
+                    ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[1].transform.localPosition);
+                    RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 1);
+                }
             }
         }
     }

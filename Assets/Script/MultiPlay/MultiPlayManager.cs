@@ -30,6 +30,7 @@ public class MultiPlayManager : MonoBehaviour
 
     public void SpawnBall(Vector3 ballPos)
     {
+        Debug.Log(ballPos);
         Vector3 ballPosition = ballPos + new Vector3(0f, 2f, 0f);
         ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
     }

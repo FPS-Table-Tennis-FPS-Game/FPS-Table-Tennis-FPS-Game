@@ -34,7 +34,6 @@ public class MultiHitPoint : NetworkBehaviour
 
         float force2 = guagePower * 1000;
 
-
         float upPower = 0;
         if (swingType == 0)
         {

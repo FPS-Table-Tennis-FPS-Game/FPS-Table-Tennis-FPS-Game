@@ -6,6 +6,7 @@ using Fusion;
 public class MultiBallManager : NetworkBehaviour
 {
     public int attackerCode;
+    public bool serveBall = true;
 
     [Networked]
     public MultiScoreManager multiScoreManager { get; set; }
@@ -19,9 +20,21 @@ public class MultiBallManager : NetworkBehaviour
         attackerCode = 99;
     }
 
+    //When Serve ball
+    public override void FixedUpdateNetwork()
+    {
+        if(serveBall)
+        {
+
+        }
+    }
+
+
+
     public void CheckHit(GameObject user)
     {
         attackerCode = user.GetComponent<MultiPlayerMovement>().playerCode;
+        serveBall = false;
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -34,8 +47,10 @@ public class MultiBallManager : NetworkBehaviour
             }
             else if (collision.gameObject.tag == "Ground")
             {
+                // Drop ball on the ground
                 if (attackerCode == 1) multiScoreManager.RPCScoreWinner(0);
                 else if (attackerCode == 0) multiScoreManager.RPCScoreWinner(1);
+                attackerCode = 99;
             }
         }
     }

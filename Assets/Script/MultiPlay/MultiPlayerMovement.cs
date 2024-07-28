@@ -77,7 +77,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 
             if (Input.GetAxis("SpawnBall") == 1 && myTurn)
             {
-                multiPlayManager.SpawnBall(transform.position);
+                multiPlayManager.SpawnBall(transform.position + transform.forward);
                 myTurn = false;
             }
 
