@@ -16,12 +16,12 @@ public class MultiHitPoint : NetworkBehaviour
         if (other.tag.Equals("Ball"))
         {
             NetworkId ballId = other.gameObject.GetComponent<NetworkObject>().Id;
-            RPC_AddForceToBall(ballId, new Vector3(0, 0, 0));
+            RPC_AddForceToBall(ballId);
         }
     }
 
-    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    void RPC_AddForceToBall(NetworkId ballId, Vector3 force)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    void RPC_AddForceToBall(NetworkId ballId)
     {
         GameObject target = Runner.FindObject(ballId).gameObject;
 

@@ -29,8 +29,6 @@ public class MultiBallManager : NetworkBehaviour
         }
     }
 
-
-
     public void CheckHit(GameObject user)
     {
         attackerCode = user.GetComponent<MultiPlayerMovement>().playerCode;
