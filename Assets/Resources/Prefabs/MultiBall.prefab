@@ -299,8 +299,8 @@ MonoBehaviour:
   UseRenderSleepThresholds: 1
   RenderThresholds:
     UseEnergy: 1
-    Position: 0.01
-    Rotation: 0.01
+    Position: 0
+    Rotation: 0
     Scale: 0.01
 --- !u!135 &5392547460743871445
 SphereCollider:
@@ -336,5 +336,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackerCode: 0
+  serveBall: 1
   _multiScoreManager: {fileID: 0}
   _dropTableCnt: 0

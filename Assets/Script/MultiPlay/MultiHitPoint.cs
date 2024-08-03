@@ -23,6 +23,7 @@ public class MultiHitPoint : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RPC_AddForceToBall(NetworkId ballId)
     {
+
         GameObject target = Runner.FindObject(ballId).gameObject;
 
         if (swingType == 0 || swingType == 1)
@@ -43,8 +44,6 @@ public class MultiHitPoint : NetworkBehaviour
         {
             upPower = guagePower * 600;
         }
-        target.GetComponent<MultiBallManager>().ChangeAuthority(Object.InputAuthority);
-
         target.GetComponent<Rigidbody>().AddForce(Vector3.up * upPower);
         target.GetComponent<Rigidbody>().AddForce(transform.parent.forward * force2);
     }
