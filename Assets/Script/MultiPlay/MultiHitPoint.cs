@@ -43,9 +43,9 @@ public class MultiHitPoint : NetworkBehaviour
         {
             upPower = guagePower * 600;
         }
+        target.GetComponent<MultiBallManager>().ChangeAuthority(Object.InputAuthority);
 
         target.GetComponent<Rigidbody>().AddForce(Vector3.up * upPower);
-
         target.GetComponent<Rigidbody>().AddForce(transform.parent.forward * force2);
     }
 }

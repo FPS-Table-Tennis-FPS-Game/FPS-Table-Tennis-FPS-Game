@@ -52,4 +52,13 @@ public class MultiBallManager : NetworkBehaviour
             }
         }
     }
+
+    // 권한을 변경하는 메서드
+    public void ChangeAuthority(PlayerRef newAuthority)
+    {
+        if (Object.HasStateAuthority)
+        {
+            Object.AssignInputAuthority(newAuthority);
+        }
+    }
 }
