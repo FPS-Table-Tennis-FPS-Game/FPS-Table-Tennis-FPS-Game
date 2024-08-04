@@ -12,6 +12,9 @@ public class MultiUIManager : MonoBehaviour
     public Text UserId0;
     public Text UserId1;
 
+    public GameObject GameSetUI;
+    public Text WinnerUser;
+
     public void UpdateScoreUI(int userScore0, int userScore1)
     {
         UserScore0.text = userScore0.ToString();
@@ -22,6 +25,12 @@ public class MultiUIManager : MonoBehaviour
     {
         if (userCode == 0) UserId0.text = userId;
         else if (userCode == 1) UserId1.text = userId;
+    }
+
+    public void GameSet(bool isSet, string winnerUserId)
+    {
+        GameSetUI.SetActive(isSet);
+        if (isSet) WinnerUser.text = winnerUserId;
     }
 
 }

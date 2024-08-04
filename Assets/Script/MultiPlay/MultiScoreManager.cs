@@ -19,6 +19,7 @@ public class MultiScoreManager : NetworkBehaviour
 
     [Networked] public int user0Score { set; get; } = 0;
     [Networked] public int user1Score { set; get; } = 0;
+    [Networked] public bool isGameSet { set; get; } = false;
 
     public override void Spawned()
     {
@@ -74,12 +75,16 @@ public class MultiScoreManager : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPCScoreWinner(int winUserCode)
+    public void RPCScoreWinner(int winUserCode, string winUserName)
     {
-        if (winUserCode == 0) user0Score += 1;
-        else if(winUserCode == 1) user1Score += 1;
-
-        multiUIManager.UpdateScoreUI(user0Score, user1Score);
+        if (!isGameSet)
+        {
+            if (winUserCode == 0) user0Score += 1;
+            else if (winUserCode == 1) user1Score += 1;
+            multiUIManager.UpdateScoreUI(user0Score, user1Score);
+            isGameSet = true;
+            multiUIManager.GameSet(true, winUserName);
+        }
         //Change User Turn
     }
 
@@ -88,7 +93,4 @@ public class MultiScoreManager : NetworkBehaviour
     {
         multiUIManager.UpdateUserId(UserId, UserCode);
     }
-
-
-
 }
