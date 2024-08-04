@@ -32,7 +32,7 @@ public class MultiPlayManager : MonoBehaviour
     {
         Vector3 ballPosition = ballPos + new Vector3(0f, 2f, 0f);
         ball = networkRunner.Spawn(ballPrefab, ballPosition, Quaternion.identity, null);
-        ball.AssignInputAuthority(networkRunner.LocalPlayer);
+        //ball.AssignInputAuthority(networkRunner.LocalPlayer);
     }
 
     public void SpawnScoreManager()
