@@ -5021,6 +5021,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1915335022}
+  - component: {fileID: 1915335023}
   - component: {fileID: 1915335021}
   m_Layer: 0
   m_Name: MultiUIManager
@@ -5062,6 +5063,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1915335023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915335020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 4193344766
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
 --- !u!1 &1930401827
 GameObject:
   m_ObjectHideFlags: 0

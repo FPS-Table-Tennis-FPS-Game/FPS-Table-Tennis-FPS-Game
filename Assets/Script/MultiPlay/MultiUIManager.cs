@@ -27,10 +27,11 @@ public class MultiUIManager : MonoBehaviour
         else if (userCode == 1) UserId1.text = userId;
     }
 
-    public void GameSet(bool isSet, string winnerUserId)
+   
+    public void GameSet(bool isSet, int winnerCode)
     {
         GameSetUI.SetActive(isSet);
-        if (isSet) WinnerUser.text = winnerUserId;
+        if (winnerCode == 0) WinnerUser.text = UserId0.text;
+        else WinnerUser.text = UserId1.text;
     }
-
 }
