@@ -22,6 +22,10 @@ public class MultiScoreManager : NetworkBehaviour
 
     public bool isGameSet { set; get; } = false;
 
+    [Networked]
+    public int OkCount { get; set; } = 0;
+    public bool PushOkBtn = false;
+
     public override void Spawned()
     {
         base.Spawned();
@@ -63,6 +67,8 @@ public class MultiScoreManager : NetworkBehaviour
                     currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
                     ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
                     ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
+                    ele.GetComponent<MultiPlayerMovement>().RpcMoveToRotation(new Vector3(0f, 180f, 0f));
+                    // Trun Back Need
                     RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 0);
                 }
                 else
@@ -84,8 +90,37 @@ public class MultiScoreManager : NetworkBehaviour
             multiUIManager.UpdateScoreUI(user0Score, user1Score);
             multiUIManager.GameSet(true, winUserCode);
             isGameSet = true;
+            StartCoroutine(WaitGameSetTime());
         }
         //Change User Turn
+    }
+
+    IEnumerator WaitGameSetTime()
+    {
+        yield return new WaitForSeconds(1f);
+        multiUIManager.PrintTimeUI(5);
+        yield return new WaitForSeconds(1f);
+        multiUIManager.PrintTimeUI(4);
+        yield return new WaitForSeconds(1f);
+        multiUIManager.PrintTimeUI(3);
+        yield return new WaitForSeconds(1f);
+        multiUIManager.PrintTimeUI(2);
+        yield return new WaitForSeconds(1f);
+        multiUIManager.PrintTimeUI(1);
+        yield return new WaitForSeconds(1f);
+        RPCNextGame();
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCNextGame()
+    {
+        isGameSet = false;
+        OkCount = 0;
+        PushOkBtn = false;
+        multiUIManager.GameSetOff();
+        Debug.Log("Next Turn");
+        Debug.Log(currrentTurn);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

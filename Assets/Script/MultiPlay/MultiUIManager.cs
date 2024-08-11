@@ -14,7 +14,7 @@ public class MultiUIManager : MonoBehaviour
 
     public GameObject GameSetUI;
     public Text WinnerUser;
-
+    public Text TimeText;
     public void UpdateScoreUI(int userScore0, int userScore1)
     {
         UserScore0.text = userScore0.ToString();
@@ -27,11 +27,19 @@ public class MultiUIManager : MonoBehaviour
         else if (userCode == 1) UserId1.text = userId;
     }
 
-   
     public void GameSet(bool isSet, int winnerCode)
     {
         GameSetUI.SetActive(isSet);
         if (winnerCode == 0) WinnerUser.text = UserId0.text;
         else WinnerUser.text = UserId1.text;
     }
+    public void GameSetOff()
+    {
+        GameSetUI.SetActive(false);
+    }
+    public void PrintTimeUI(int time)
+    {
+        TimeText.text = time.ToString();
+    }
+
 }

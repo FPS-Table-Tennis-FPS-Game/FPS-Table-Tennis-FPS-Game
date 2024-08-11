@@ -37,14 +37,17 @@ public class MultiPlayerMovement : NetworkBehaviour
     public bool isRCharge = false;
 
     private Vector3 stopState = new Vector3(0f, 0f, 0f);
+    private bool spawned = false;
 
     // Start is called before the first frame update
     public override void Spawned()
     {
         if (HasStateAuthority)
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (Runner.ActivePlayers.Count() == 1)
+            {
+                myTurn = true;
+            }
             sight = Camera.main;
             sight.GetComponent<FirstPersonCamera>().Target = gameObject.transform.GetChild(1).transform;
 
@@ -55,16 +58,27 @@ public class MultiPlayerMovement : NetworkBehaviour
 
             playerId = canvas.transform.GetChild(3).GetComponentInChildren<Text>().text;
 
-            if(Runner.ActivePlayers.Count() == 1)
-            {
-                myTurn = true;
-            }
-
             EffectEnabled = false;
-
+            spawned = true;
         }
     }
 
+    private void Update()
+    {
+        if(spawned)
+        {
+            if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+    }
 
     public override void FixedUpdateNetwork()
     {
@@ -205,6 +219,13 @@ public class MultiPlayerMovement : NetworkBehaviour
     public void RpcMoveToPosition(Vector3 position)
     {
         transform.position = position;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RpcMoveToRotation(Vector3 rotation)
+    {
+        Quaternion transformRotation = Quaternion.Euler(rotation);
+        transform.rotation = transformRotation;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
