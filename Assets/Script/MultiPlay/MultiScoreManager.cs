@@ -7,6 +7,8 @@ public class MultiScoreManager : NetworkBehaviour
 {
     public NetworkRunner networkRunner;
 
+    private MultiPlayManager multiPlayManager;
+
     public MultiUIManager multiUIManager;
 
     public GameObject[] setPosition;
@@ -32,6 +34,7 @@ public class MultiScoreManager : NetworkBehaviour
         networkRunner = FindObjectOfType<NetworkRunner>();
         setPosition = GameObject.FindGameObjectsWithTag("PositionSetting");
         multiUIManager = GameObject.Find("MultiUIManager").GetComponent<MultiUIManager>();
+        multiPlayManager = GameObject.FindObjectOfType<MultiPlayManager>();
         StartCoroutine(FindPlayers(waitTime));
     }
 
@@ -119,6 +122,7 @@ public class MultiScoreManager : NetworkBehaviour
         OkCount = 0;
         PushOkBtn = false;
         multiUIManager.GameSetOff();
+        multiPlayManager.DeSpawnBall();
         Debug.Log("Next Turn");
         Debug.Log(currrentTurn);
     }

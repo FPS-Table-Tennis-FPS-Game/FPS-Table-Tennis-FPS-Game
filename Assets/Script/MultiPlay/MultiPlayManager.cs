@@ -35,6 +35,11 @@ public class MultiPlayManager : MonoBehaviour
         //ball.AssignInputAuthority(networkRunner.LocalPlayer);
     }
 
+    public void DeSpawnBall()
+    {
+        networkRunner.Despawn(ball);
+    }
+
     public void SpawnScoreManager()
     {
         multiScoreManager = networkRunner.Spawn(scorePrefab, new Vector3(0f, 0f, 0f));
