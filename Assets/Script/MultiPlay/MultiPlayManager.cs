@@ -17,7 +17,7 @@ public class MultiPlayManager : MonoBehaviour
 
     public GameObject ballPrefab;
 
-    private NetworkObject ball;
+    public NetworkObject ball;
 
     public GameObject scorePrefab;
 

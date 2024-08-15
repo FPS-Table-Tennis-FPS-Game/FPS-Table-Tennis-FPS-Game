@@ -233,4 +233,10 @@ public class MultiPlayerMovement : NetworkBehaviour
     {
         RacketEffect.enabled = effect;
     }
+
+    public void ResetMyTurn()
+    {
+        myTurn = true;
+    }
+
 }
