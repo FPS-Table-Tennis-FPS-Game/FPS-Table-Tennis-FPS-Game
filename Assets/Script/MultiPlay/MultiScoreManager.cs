@@ -90,7 +90,6 @@ public class MultiScoreManager : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_changeTurn()
     {
-        Debug.Log("Next Turn");
         foreach (GameObject ele in networkPlayers)
         {
             if(ele.GetComponent<MultiPlayerMovement>().playerId != currrentTurn)
@@ -138,8 +137,11 @@ public class MultiScoreManager : NetworkBehaviour
         OkCount = 0;
         PushOkBtn = false;
         multiUIManager.GameSetOff();
-        networkRunner.Despawn(multiPlayManager.ball);
-        RPC_changeTurn();
+        if (multiPlayManager.ball != null)
+        {
+            RPC_changeTurn();
+            networkRunner.Despawn(multiPlayManager.ball);
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
