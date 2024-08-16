@@ -12,6 +12,8 @@ public class MultiPlayManager : MonoBehaviour
     public GameObject UserPowerUI;
     public GameObject ScoreUI;
 
+    public GameObject UserBtnUI;
+
     public Text InputUserName;
     public NetworkRunner networkRunner;
 
@@ -55,6 +57,7 @@ public class MultiPlayManager : MonoBehaviour
         ScoreUI.SetActive(true);
         UserAimUI.SetActive(true);
         UserPowerUI.SetActive(true);
+        UserBtnUI.SetActive(true);
 
         networkRunner.ProvideInput = true;
         networkRunner.StartGame(new StartGameArgs

@@ -92,7 +92,7 @@ public class MultiScoreManager : NetworkBehaviour
     {
         foreach (GameObject ele in networkPlayers)
         {
-            if(ele.GetComponent<MultiPlayerMovement>().playerId != currrentTurn)
+            if(ele.GetComponent<MultiPlayerMovement>().playerId != currrentTurn)    
             {
                 ele.GetComponent<MultiPlayerMovement>().ResetMyTurn();
                 currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;

@@ -48,6 +48,7 @@ public class MultiPlayerMovement : NetworkBehaviour
             {
                 myTurn = true;
             }
+
             sight = Camera.main;
             sight.GetComponent<FirstPersonCamera>().Target = gameObject.transform.GetChild(1).transform;
 
@@ -56,7 +57,7 @@ public class MultiPlayerMovement : NetworkBehaviour
             aimingController = canvas.GetComponent<MultiAmingController>();
             multiPlayManager = GameObject.FindObjectOfType<MultiPlayManager>();
 
-            playerId = canvas.transform.GetChild(3).GetComponentInChildren<Text>().text;
+            playerId = canvas.transform.GetChild(4).GetComponentInChildren<Text>().text;
 
             EffectEnabled = false;
             spawned = true;

@@ -15,6 +15,9 @@ public class MultiUIManager : MonoBehaviour
     public GameObject GameSetUI;
     public Text WinnerUser;
     public Text TimeText;
+
+    public GameObject ServeText;
+
     public void UpdateScoreUI(int userScore0, int userScore1)
     {
         UserScore0.text = userScore0.ToString();
@@ -40,6 +43,12 @@ public class MultiUIManager : MonoBehaviour
     public void PrintTimeUI(int time)
     {
         TimeText.text = time.ToString();
+    }
+
+    public void AlertYourServe(bool enabled)
+    {
+        if(enabled) ServeText.GetComponent<Outline>().effectColor = Color.cyan;
+        else ServeText.GetComponent<Outline>().effectColor = Color.black;
     }
 
 }
