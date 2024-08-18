@@ -29,6 +29,7 @@ public class MultiPlayerMovement : NetworkBehaviour
 
     private MultiPlayManager multiPlayManager;
 
+    public MultiUIManager multiUIManager;
 
     public bool ishit = false;
     public bool isSwing = false;
@@ -58,7 +59,7 @@ public class MultiPlayerMovement : NetworkBehaviour
             multiPlayManager = GameObject.FindObjectOfType<MultiPlayManager>();
 
             playerId = canvas.transform.GetChild(4).GetComponentInChildren<Text>().text;
-
+            multiUIManager = GameObject.Find("MultiUIManager").GetComponent<MultiUIManager>();
             EffectEnabled = false;
             spawned = true;
         }
@@ -93,6 +94,7 @@ public class MultiPlayerMovement : NetworkBehaviour
             if (Input.GetAxis("SpawnBall") == 1 && myTurn)
             {
                 multiPlayManager.SpawnBall(transform.position + transform.forward);
+                multiUIManager.AlertYourServe(false);
                 myTurn = false;
             }
 

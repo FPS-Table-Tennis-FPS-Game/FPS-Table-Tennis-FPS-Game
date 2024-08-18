@@ -71,10 +71,10 @@ public class MultiScoreManager : NetworkBehaviour
                     currrentTurn = ele.GetComponent<MultiPlayerMovement>().playerId;
                     ele.GetComponent<MultiPlayerMovement>().playerCode = 0;
                     ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[0].transform.localPosition);
-                    ele.GetComponent<MultiPlayerMovement>().RpcMoveToRotation(new Vector3(0f, 180f, 0f));
-                    // Trun Back Need
                     RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 0);
                     networkPlayers[0] = ele;
+
+                    multiUIManager.AlertYourServe(false);
                 }
                 else
                 {
@@ -82,6 +82,8 @@ public class MultiScoreManager : NetworkBehaviour
                     ele.GetComponent<MultiPlayerMovement>().RpcMoveToPosition(setPosition[1].transform.localPosition);
                     RPCUserIdUi(ele.GetComponent<MultiPlayerMovement>().playerId, 1);
                     networkPlayers[1] = ele;
+
+                    multiUIManager.AlertYourServe(true);
                 }
             }
         }
@@ -112,7 +114,6 @@ public class MultiScoreManager : NetworkBehaviour
             isGameSet = true;
             StartCoroutine(WaitGameSetTime());
         }
-        //Change User Turn
     }
 
     IEnumerator WaitGameSetTime()
@@ -141,6 +142,9 @@ public class MultiScoreManager : NetworkBehaviour
         {
             RPC_changeTurn();
             networkRunner.Despawn(multiPlayManager.ball);
+        } else
+        {
+            multiUIManager.AlertYourServe(true);
         }
     }
 

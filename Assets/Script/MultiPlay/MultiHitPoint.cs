@@ -26,6 +26,10 @@ public class MultiHitPoint : NetworkBehaviour
 
         GameObject target = Runner.FindObject(ballId).gameObject;
 
+        //Power Reset
+        target.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+
+
         if (swingType == 0 || swingType == 1)
         {
             target.GetComponent<MultiBallManager>().CheckHit(transform.root.gameObject);

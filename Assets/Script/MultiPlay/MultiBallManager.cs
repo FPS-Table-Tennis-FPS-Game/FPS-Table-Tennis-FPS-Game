@@ -97,9 +97,10 @@ public class MultiBallManager : NetworkBehaviour
                     {
                         if (dropTable1Cnt == 1)
                         {
+                            // Drop ball my Table
                             multiScoreManager.RPCScoreWinner(0);
                             RPC_ResetDropCnt();
-                        }
+                        } 
                     }
                     else if (attackerCode == 0)
                     {
